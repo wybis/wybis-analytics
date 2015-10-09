@@ -1,0 +1,47 @@
+[
+  {
+    "id" : "/tellerTransfers/transaction/(\d+)/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/acknowledge",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/acknowledge"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  },
+  {
+    "id" : "\/tellerTransfers\/transaction\/(\d+)\/pay",
+    "name" : "-",
+    "sample" : "/tellerTransfers/transaction/304572/pay"
+  }
+]

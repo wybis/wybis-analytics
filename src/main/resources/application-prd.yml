@@ -1,0 +1,6 @@
+
+spring :
+
+  datasource :
+    jndi-name : java:comp/env/jdbc/wybis-analytics
+    #url : jdbc:h2:tcp://localhost/c:/myhome/app-home/wybis-analytics/h2

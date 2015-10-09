@@ -1,0 +1,11 @@
+[
+  {
+    "id": "donkhan",
+    "password": "wybis431",
+    "emailId": "defualt@127.0.0.1",
+    "firstName": "Administrator",
+    "lastName": "Administrator",
+    "status": "A",
+    "roleId": "admin"
+  }
+]

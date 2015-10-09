@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/integration
+        http://www.springframework.org/schema/integration/spring-integration.xsd
+        http://www.springframework.org/schema/integration/file
+        http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+        http://www.springframework.org/schema/integration/stream
+        http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
+
+    <int:channel id="testChannel"></int:channel>
+
+    <int-stream:stdout-channel-adapter channel="testChannel" append-newline="true"/>
+
+    <int-file:inbound-channel-adapter id="accessDataLogFile"
+                                  directory="file:/myhome/app-home/wybis-analytics/logs"
+                                  filename-regex="^([a-z].*)-(\d+)-(\d\d)-(\d\d)_\d\d_\d\d_\d\d\.\d\d\d\.log"
+                                  auto-startup="true">
+        <int:poller id="poller" fixed-delay="5000" />
+    </int-file:inbound-channel-adapter>
+
+</beans>
+<!--
+filename-regex="test[0-9]+\.txt"
+filename-pattern="*.log"
+-->

@@ -1,0 +1,5 @@
+
+spring :
+
+  datasource :
+    url : jdbc:h2:tcp://localhost/c:/myhome/dev-home/wybis/wybis-analytics/temp/h2

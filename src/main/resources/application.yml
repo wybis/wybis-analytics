@@ -1,0 +1,70 @@
+info :
+  app :
+    name : Wybis Analytics
+    description : Analytics Service
+    version : 1.0.1
+
+server :
+  port : 8111
+  #sessionTimeout : 30
+
+management :
+  port : 8112
+  context-path : /_admin
+#  security :
+#    role : SUPERUSER
+#    user :
+#      name : admin
+#      password : secret
+
+spring :
+  application :
+    name : Wybis Analytics
+
+  boot :
+    admin :
+      url : http://localhost:8011
+
+  profiles :
+    active : prd
+
+  datasource :
+    driverClassName: org.h2.Driver
+    username : sa
+    password :
+    url : jdbc:h2:mem
+
+  jpa :
+    generate-ddl : true
+    hibernate :
+      ddl-auto : create-drop
+    database : H2
+    #show-sql : true
+  
+  mail :
+    host : smtp.live.com
+    port : 587
+    username : vteial@hotmail.com
+    password : <password>
+    #smtp.timeout : 3000
+    #smtp.connectiontimeout : 3000
+    #smtp.auth : true
+    #smtp.starttls.enable : true
+  
+  mobile :
+    devicedelegatingviewresolver :
+      enabled : true
+  
+  jackson :
+    date-format : dd-MM-yyyy HH:mm:ss
+
+  groovy :
+    template :
+    #allowRequestOverride : false
+    #allowSessionOverride : false
+    cache : false
+    #contentType : text/html
+    #prefix : classpath:/templates/
+    #suffix : .tpl
+    #templateEncoding : UTF-8
+    #template.viewNames :  # whitelist of view names that can be resolved
