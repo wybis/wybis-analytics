@@ -1,2 +1,2 @@
-# sbt-watchyoursales
-Sales Management System
+# wybis-analytics
+Wybis Analytics
