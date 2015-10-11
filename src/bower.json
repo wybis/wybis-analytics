@@ -18,6 +18,8 @@
     "angular-sanitize": "~1.4.x",
     "angular-loader": "~1.4.x",
     "angular-mocks": "~1.4.x",
+    "angular-aria": "~1.4.x",
+    "angular-animate": "~1.4.x",
     "ngstorage": "~0.3.4",
     "holderjs": "~2.8.0",
     "angular-holderjs": "~1.1.0",
@@ -31,7 +33,10 @@
     "angular.panels": "*",
     "angular-presence": "~0.2.0",
     "jquery.inputmask": "~3.1.63",
-    "angular-inputmask": "*"
+    "angular-inputmask": "*",
+    "angular-material": "~0.11.2",
+    "semantic": "semantic-ui#~2.1.4",
+    "react": "~0.14.0"
   },
   "resolutions": {
     "angular": "~1.4.x",

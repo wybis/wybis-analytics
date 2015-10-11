@@ -27,7 +27,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("bootstrap/index.html")
+		registry.addViewController("/").setViewName("bootstrap/index-b.html")
 	}
 
     @Bean

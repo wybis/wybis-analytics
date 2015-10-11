@@ -1,0 +1,140 @@
+<!--
+<form class="form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <label><small>Application : </small></label>
+                    <select class="form-control input-sm" x-ng-model="searchCriteria.application"
+                        x-ng-options="item.name for item in applications">
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label><small>From ( yyyy - mm - dd hh : mm )</small></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm"
+                           x-ng-model="searchCriteria.frString"
+                           x-input-mask="'mask'"
+                           mask-option="searchCriteria.frMask"/>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label><small>To ( yyyy - mm - dd hh : mm )</small></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm"
+                            x-ng-model="searchCriteria.toString"
+                            x-input-mask="'mask'"
+                            mask-option="searchCriteria.toMask"/>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label><small>Date Range Helper </small></label>
+                    <select class="form-control input-sm" x-ng-model="searchCriteria.dateRange"
+                        x-ng-change="onDateRangeChange()"
+                        x-ng-options="item.name for item in dateRanges">
+                    </select>
+                </div>
+                <div class="col-md-2 text-center">
+                    <div>&nbsp;</div>
+                    <button type="button" class="btn btn-primary btn-block"
+                        x-ng-click="search()">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="panel panel-default" x-ng-show="results.items.length != null">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-9">
+                Application : <code>{{results.application.name}}</code> From : <code>{{results.frMs | date:'dd-MM-yyyy HH:mm'}}</code> To : <code>{{results.toMs | date:'dd-MM-yyyy HH:mm'}}</code>
+            </div>
+            <span class="col-md-3 text-right">
+                <button	class="btn btn-default btn-sm"
+                    x-ng-show="pathSummary != null"
+                    x-ng-click="showSummaryView()">
+                    Back to Summary
+                </button>&nbsp;
+                <button	type="button" class="btn btn-default btn-sm"
+                   x-ng-show="pathSummary == null"
+                   x-ng-click="refresh()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+            </span>
+        </div>
+        <div class="row" x-ng-show="pathSummary != null">
+            <div class="col-md-7">
+                Req Path : <code>{{pathSummary.requestPathKey}}</code>
+            </div>
+            <div class="col-md-5 text-right">
+                Min Time : <code>{{(pathSummary.minTime / 1000) | number : 3}}</code>
+                &nbsp;&nbsp;
+                Max Time : <code>{{(pathSummary.maxTime / 1000) | number : 3}}</code>
+                &nbsp;&nbsp;
+                Avg Time : <code>{{(pathSummary.avgTime / 1000) | number : 3}}</code>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-hover" x-ng-show="pathSummary == null">
+        <thead>
+        <tr>
+            <th><small>#</small></th>
+            <th><small>Path Pattern</small></th>
+            <th><small>Total Hits</small></th>
+            <th><small>Min Time</small></th>
+            <th><small>Max Time</small></th>
+            <th><small>Avg Time</small></th>
+            <th><small>&nbsp;</small></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr x-ng-repeat="item in results.items | orderBy : '-avgTime'">
+            <td class="text-right">{{$index+1}}</td>
+            <td>{{item.requestPathKey}}</td>
+            <td class="text-right">{{item.totalHits}}</td>
+            <td class="text-right">{{(item.minTime / 1000) | number : 3}}</td>
+            <td class="text-right">{{(item.maxTime / 1000) | number : 3}}</td>
+            <td class="text-right">{{(item.avgTime / 1000) | number : 3}}</td>
+            <td class="tex-center" width="40">
+                <button class="btn btn-default btn-sm"
+                    x-ng-click="showPathView(item)">
+                    <i class="fa fa-filter"></i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped table-bordered table-hover" x-ng-show="pathSummary != null">
+        <thead>
+        <tr>
+            <th><small>#</small></th>
+            <th><small>Request Path</small></th>
+            <th><small>User Id</small></th>
+            <th><small>Start Time</small></th>
+            <th><small>End Time</small></th>
+            <th><small>C Run Time</small></th>
+            <th><small>R Run Time</small></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr x-ng-repeat="item in pathSummary.items | orderBy : '-processTime'">
+            <td class="text-right">{{$index+1}}</td>
+            <td>{{item.requestId}}</td>
+            <td>{{item.userId}}</td>
+            <td class="text-center" width="200">{{item.startTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
+            <td class="text-center" width="200">{{item.endTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
+            <td class="text-right"  width="100">{{(item.processTimeC / 1000) | number : 3}}</td>
+            <td class="text-right"  width="100">{{(item.processTime) / 1000 | number : 3}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+-->

@@ -62,7 +62,7 @@ dependencies {
     compile("org.springframework.integration:spring-integration-java-dsl:1.1.0.RELEASE")
 
     //compile("org.jolokia:jolokia-core")
-    compile("de.codecentric:spring-boot-admin-starter-client:1.2.3")
+    //compile("de.codecentric:spring-boot-admin-starter-client:1.2.3")
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
