@@ -46,17 +46,17 @@ function appConfig($routeProvider, $locationProvider) {
     });
 
     $routeProvider.when('/home', {
-        templateUrl: 'modules/home/d.html',
+        templateUrl: 'bootstrap/modules/home/d.html',
         controller: 'homeController'
     });
 
     $routeProvider.when('/access-data', {
-        templateUrl: 'modules/accessData/d.html',
+        templateUrl: 'bootstrap/modules/accessData/d.html',
         controller: 'accessDataListController'
     });
 
     $routeProvider.when('/not-found', {
-        templateUrl: 'modules/zgeneral/d-notFound.html'
+        templateUrl: 'bootstrap/modules/zgeneral/d-notFound.html'
     });
 
     $routeProvider.otherwise({

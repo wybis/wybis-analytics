@@ -21,7 +21,7 @@ appControllers.controller('rootController', rootController);
 
 var dependents = ['ngRoute', 'ngSanitize'];
 dependents.push('ngStorage');
-//dependents.push('green.inputmask4angular');
+dependents.push('green.inputmask4angular');
 dependents.push('app.filters');
 dependents.push('app.directives');
 dependents.push('app.services');
@@ -39,17 +39,17 @@ function appConfig($routeProvider, $locationProvider) {
     });
 
     $routeProvider.when('/home', {
-        templateUrl: 'modules/home/d.html',
+        templateUrl: 'semantic-ui/modules/home/d.html',
         controller: 'homeController'
     });
 
     $routeProvider.when('/access-data', {
-        templateUrl: 'modules/accessData/d.html',
+        templateUrl: 'semantic-ui/modules/accessData/d.html',
         controller: 'accessDataListController'
     });
 
     $routeProvider.when('/not-found', {
-        templateUrl: 'modules/zgeneral/d-notFound.html'
+        templateUrl: 'semantic-ui/modules/zgeneral/d-notFound.html'
     });
 
     $routeProvider.otherwise({

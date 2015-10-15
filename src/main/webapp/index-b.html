@@ -1,0 +1,100 @@
+<html lang="en" ng-app="app" ng-controller="rootController">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>Wybis Analytics</title>
+
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
+	<link rel="stylesheet" href="bower_components/ng-notify/dist/ng-notify.min.css">
+	<link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.css"/>
+	<link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.min.css"/>
+	<link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css"/>
+
+	<link rel="stylesheet" href="bootstrap/modules/default.css" />
+</head>
+<body x-ng-clock>
+
+<div id="header">
+	<nav class="navbar navbar-default navbar-fixed-top" x-role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle"
+						x-toggle="collapse" x-target=".navbar-inverse-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="console.html">Wybis Analytics</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li>
+						<a x-ng-href="#/home"><i class="fa fa-home"></i> Home</a>
+					</li>
+					<li>
+						<a href="#/access-data">Access Data</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="breadCrumb" class="container-fluid">
+
+			<div class="container">
+				<strong><small>{{viewName | capitalizeFilter}}</small></strong>
+			</div>
+
+		</div>
+
+	</nav>
+</div>
+
+<section class="container-fluid">
+	<div class="container" x-ng-view></div>
+</section>
+
+<!-- 
+<div data-panels="true"></div>
+-->
+
+<script src="bower_components/lodash/lodash.min.js"></script>
+<script src="bower_components/moment/min/moment.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+<script src="bower_components/ngstorage/ngStorage.min.js"></script>
+<script src="bower_components/holderjs/holder.min.js"></script>
+<script src="bower_components/angular-holderjs/src/holder.js"></script>
+<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+<script src="bower_components/angular-h-sweetalert/dist/ngSweetAlert.min.js"></script>
+<script src="bower_components/ng-notify/dist/ng-notify.min.js"></script>
+<script src="bower_components/angular-block-ui/dist/angular-block-ui.min.js"></script>
+<script src="bower_components/angular-ui-select/dist/select.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js"></script>
+<script src="bower_components/angular-inputmask/src/green.inputmask4angular.js"></script>
+
+<script src="modules/init.js"></script>
+
+<script src="modules/common.js"></script>
+<script src="bootstrap/modules/common.js"></script>
+
+<script src="bootstrap/modules/wydNotify/wydNotifyByNgNotify.js"></script>
+
+<script src="modules/home/controllers.js"></script>
+<script src="modules/accessData/services.js"></script>
+<script src="modules/accessData/controllers.js"></script>
+
+<script src="bootstrap/modules/index.js"></script>
+
+</body>
+</html>

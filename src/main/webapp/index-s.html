@@ -1,0 +1,88 @@
+<html lang="en" ng-app="app" ng-controller="rootController">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Wybis Analytics (AngularJS with SemantiUI)</title>
+
+    <link rel="stylesheet" href="bower_components/semantic/dist/semantic.min.css">
+
+    <link rel="stylesheet" href="semantic-ui/modules/default.css" />
+</head>
+<body>
+
+<div id="leftSideBar" class="ui left vertical sidebar menu" sui-sidebar>
+    <div class="ui secondary segment">
+        <div class="item">
+            <h1>Wybis Analytics</h1>
+        </div>
+    </div>
+</div>
+<!--
+<div id="topSideBar" class="ui top sidebar" sui-sidebar>
+    <div class="ui secondary segment">
+        <div class="item">
+            <h1>Wybis Analytics</h1>
+        </div>
+    </div>
+</div>
+-->
+<div class="pusher">
+
+    <div class="ui fixed teal inverted menu">
+        <div class="ui container">
+            <div class="ui teal icon button" ng-click="toggleSideBar('leftSideBar')">
+                <i class="sidebar icon"></i>
+            </div>
+
+            <a class="item" href="index-s.html">Wybis Analytics</a>
+
+            <a class="item" href="#/home">
+                <i class="home icon"></i> Home
+            </a>
+
+            <a class="item" href="#/access-data">
+                Access Data
+            </a>
+        </div>
+    </div>
+
+    <div class="ui container">
+        <br/><br/><br/>
+        <x-ng-view></x-ng-view>
+
+    </div>
+</div>
+
+<script src="bower_components/lodash/lodash.min.js"></script>
+<script src="bower_components/moment/min/moment.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+<script src="bower_components/ngstorage/ngStorage.min.js"></script>
+<script src="bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js"></script>
+<script src="bower_components/angular-inputmask/src/green.inputmask4angular.js"></script>
+
+<script src="bower_components/semantic/dist/semantic.min.js"></script>
+
+<script src="modules/init.js"></script>
+
+<script src="modules/common.js"></script>
+<script src="semantic-ui/modules/common.js"></script>
+
+<script src="semantic-ui/modules/semantic-ui.js"></script>
+<script src="semantic-ui/modules/wydNotify/wydNotifyBySemantic.js"></script>
+
+<script src="modules/home/controllers.js"></script>
+<script src="modules/accessData/services.js"></script>
+<script src="modules/accessData/controllers.js"></script>
+
+<script src="semantic-ui/modules/index.js"></script>
+
+</body>
+</html>

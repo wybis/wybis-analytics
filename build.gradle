@@ -32,13 +32,6 @@ war {
     version = '0.0.1'
 }
 
-idea {
-    module {
-        inheritOutputDirs = false
-        outputDir = file("$buildDir/classes/main/")
-    }
-}
-
 configurations {
     providedRuntime
 }
@@ -74,6 +67,13 @@ dependencies {
 bootRun {
 //  Use --debug option to print out
 //    args '--debug'
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
 }
 
 task wrapper(type: Wrapper) { gradleVersion = '2.5' }

@@ -5,11 +5,11 @@ info :
     version : 1.0.1
 
 server :
-  port : 8111
+  port : 8121
   #sessionTimeout : 30
 
 management :
-  port : 8112
+  port : 8122
   context-path : /_admin
 #  security :
 #    role : SUPERUSER

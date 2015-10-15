@@ -1,87 +1,81 @@
-<!--
-<form class="form">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <label><small>Application : </small></label>
-                    <select class="form-control input-sm" x-ng-model="searchCriteria.application"
-                        x-ng-options="item.name for item in applications">
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label><small>From ( yyyy - mm - dd hh : mm )</small></label>
-                    <div class="input-group">
-                        <input type="text" class="form-control input-sm"
-                           x-ng-model="searchCriteria.frString"
-                           x-input-mask="'mask'"
-                           mask-option="searchCriteria.frMask"/>
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <label><small>To ( yyyy - mm - dd hh : mm )</small></label>
-                    <div class="input-group">
-                        <input type="text" class="form-control input-sm"
-                            x-ng-model="searchCriteria.toString"
-                            x-input-mask="'mask'"
-                            mask-option="searchCriteria.toMask"/>
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <label><small>Date Range Helper </small></label>
-                    <select class="form-control input-sm" x-ng-model="searchCriteria.dateRange"
-                        x-ng-change="onDateRangeChange()"
-                        x-ng-options="item.name for item in dateRanges">
-                    </select>
-                </div>
-                <div class="col-md-2 text-center">
-                    <div>&nbsp;</div>
-                    <button type="button" class="btn btn-primary btn-block"
-                        x-ng-click="search()">
-                        <i class="fa fa-search"></i> Search
-                    </button>
-                </div>
-            </div>
+<form class="ui segment small form">
+    <div class="fields">
+        <div class="three wide field required">
+            <label>Application</label>
+            <select class="ui dropdown" x-sui-select
+                x-ng-model="searchCriteria.application"
+                x-ng-options="item.name for item in applications">
+            </select>
+        </div>
+        <div class="four wide field required">
+            <label>From ( yyyy - mm - dd hh : mm )</label>
+            <input type="text"
+               x-ng-model="searchCriteria.frString"
+               x-input-mask="'mask'"
+               mask-option="searchCriteria.frMask"/>
+        </div>
+        <div class="four wide field required">
+            <label>To ( yyyy - mm - dd hh : mm )</label>
+            <input type="text"
+               x-ng-model="searchCriteria.toString"
+               x-input-mask="'mask'"
+               mask-option="searchCriteria.toMask"/>
+        </div>
+        <div class="three wide field">
+            <label>Date Range Helper</label>
+            <select class="ui dropdown" x-sui-select
+                x-ng-model="searchCriteria.dateRange"
+                x-ng-change="onDateRangeChange()"
+                x-ng-options="item.name for item in dateRanges">
+            </select>
+        </div>
+        <div class="two wide field">
+            <label>&nbsp;</label>
+            <button class="ui primary button"
+                x-ng-click="search()">
+                <i class="search icon"></i> Search
+            </button>
         </div>
     </div>
 </form>
 
-<div class="panel panel-default" x-ng-show="results.items.length != null">
+<div x-ng-show="results.items.length != null">
 
-    <div class="panel-heading">
+    <div class="ui grid">
         <div class="row">
-            <div class="col-md-9">
-                Application : <code>{{results.application.name}}</code> From : <code>{{results.frMs | date:'dd-MM-yyyy HH:mm'}}</code> To : <code>{{results.toMs | date:'dd-MM-yyyy HH:mm'}}</code>
+            <div class="twelve wide column">
+                Application : <span class="ui teal basic label">{{results.application.name}}</span>
+                From : <span class="ui teal basic label">{{results.frMs | date:'dd-MM-yyyy HH:mm'}}</span>
+                To : <span class="ui teal basic label">{{results.toMs | date:'dd-MM-yyyy HH:mm'}}</span>
             </div>
-            <span class="col-md-3 text-right">
-                <button	class="btn btn-default btn-sm"
+            <div class="four wide column right aligned">
+                <button	class="ui small basic button"
                     x-ng-show="pathSummary != null"
                     x-ng-click="showSummaryView()">
                     Back to Summary
-                </button>&nbsp;
-                <button	type="button" class="btn btn-default btn-sm"
-                   x-ng-show="pathSummary == null"
-                   x-ng-click="refresh()">
-                    <i class="fa fa-refresh"></i>
                 </button>
-            </span>
+                <button	class="ui small basic button"
+                    x-ng-show="pathSummary == null"
+                    x-ng-click="refresh()">
+                    <i class="refresh icon"></i>
+                </button>
+            </div>
         </div>
         <div class="row" x-ng-show="pathSummary != null">
-            <div class="col-md-7">
-                Req Path : <code>{{pathSummary.requestPathKey}}</code>
+            <div class="nine wide column">
+                Req Path : <span class="ui teal basic label">{{pathSummary.requestPathKey}}</span>
             </div>
-            <div class="col-md-5 text-right">
-                Min Time : <code>{{(pathSummary.minTime / 1000) | number : 3}}</code>
+            <div class="seven wide column right aligned">
+                Min Time : <span class="ui teal basic label">{{(pathSummary.minTime / 1000) | number : 3}}</span>
                 &nbsp;&nbsp;
-                Max Time : <code>{{(pathSummary.maxTime / 1000) | number : 3}}</code>
+                Max Time : <span class="ui teal basic label">{{(pathSummary.maxTime / 1000) | number : 3}}</span>
                 &nbsp;&nbsp;
-                Avg Time : <code>{{(pathSummary.avgTime / 1000) | number : 3}}</code>
+                Avg Time : <span class="ui teal basic label">{{(pathSummary.avgTime / 1000) | number : 3}}</span>
             </div>
         </div>
     </div>
-    <table class="table table-striped table-bordered table-hover" x-ng-show="pathSummary == null">
+
+    <table class="ui celled striped selectable table" x-ng-show="pathSummary == null">
         <thead>
         <tr>
             <th><small>#</small></th>
@@ -95,23 +89,23 @@
         </thead>
         <tbody>
         <tr x-ng-repeat="item in results.items | orderBy : '-avgTime'">
-            <td class="text-right">{{$index+1}}</td>
+            <td class="right aligned">{{$index+1}}</td>
             <td>{{item.requestPathKey}}</td>
-            <td class="text-right">{{item.totalHits}}</td>
-            <td class="text-right">{{(item.minTime / 1000) | number : 3}}</td>
-            <td class="text-right">{{(item.maxTime / 1000) | number : 3}}</td>
-            <td class="text-right">{{(item.avgTime / 1000) | number : 3}}</td>
-            <td class="tex-center" width="40">
-                <button class="btn btn-default btn-sm"
+            <td class="right aligned">{{item.totalHits}}</td>
+            <td class="right aligned">{{(item.minTime / 1000) | number : 3}}</td>
+            <td class="right aligned">{{(item.maxTime / 1000) | number : 3}}</td>
+            <td class="right aligned">{{(item.avgTime / 1000) | number : 3}}</td>
+            <td class="right aligned" width="40">
+                <button class="ui small basic button"
                     x-ng-click="showPathView(item)">
-                    <i class="fa fa-filter"></i>
+                    <i class="filter icon"></i>
                 </button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <table class="table table-striped table-bordered table-hover" x-ng-show="pathSummary != null">
+    <table class="ui celled striped selectable table" x-ng-show="pathSummary != null">
         <thead>
         <tr>
             <th><small>#</small></th>
@@ -125,16 +119,16 @@
         </thead>
         <tbody>
         <tr x-ng-repeat="item in pathSummary.items | orderBy : '-processTime'">
-            <td class="text-right">{{$index+1}}</td>
+            <td class="right aligned">{{$index+1}}</td>
             <td>{{item.requestId}}</td>
             <td>{{item.userId}}</td>
-            <td class="text-center" width="200">{{item.startTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
-            <td class="text-center" width="200">{{item.endTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
-            <td class="text-right"  width="100">{{(item.processTimeC / 1000) | number : 3}}</td>
-            <td class="text-right"  width="100">{{(item.processTime) / 1000 | number : 3}}</td>
+            <td class="center aligned" width="200">{{item.startTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
+            <td class="center aligned" width="200">{{item.endTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
+            <td class="right aligned"  width="100">{{(item.processTimeC / 1000) | number : 3}}</td>
+            <td class="right aligned"  width="100">{{(item.processTime) / 1000 | number : 3}}</td>
         </tr>
         </tbody>
     </table>
 
 </div>
--->
+
