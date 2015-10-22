@@ -3,9 +3,9 @@ function accessDataService($log, $http, $q, wydNotifyService) {
 
     var service = {
         applications : [],
-        results : { frMs : null, toMs : null, items : null},
-        itemsMap : {},
-        patternMap : {}
+        pathKeyPatterns : [],
+        results : { application : null, frMs : null, toMs : null, items : null},
+        itemsMap : {}
     }, curPageNo = 0;
 
     service.init = function() {
@@ -20,17 +20,98 @@ function accessDataService($log, $http, $q, wydNotifyService) {
         applications.push(app);
         app = {id : 4, code : 'harmoney-main', name : 'Harmoney Main'};
         applications.push(app);
+
+        var pathKeyPatterns = service.pathKeyPatterns, pathKeyPattern = null;
+
+        //  /tellerTransfers/transaction/304572/pay
+        pathKeyPattern = {
+            pathKey : '/tellerTransfers/transaction/id/pay',
+            pattern : /\/tellerTransfers\/transaction\/(\d+)\/pay/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tellerTransfers/transaction/304572/acknowledge
+        pathKeyPattern = {
+            pathKey : '/tellerTransfers/transaction/id/acknowledge',
+            pattern : /\/tellerTransfers\/transaction\/(\d+)\/acknowledge/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tellerTransfers/transaction/304572/acknowledge
+        pathKeyPattern = {
+            pathKey : '/tellerTransfers/transaction/id/cancel',
+            pattern : /\/tellerTransfers\/transaction\/(\d+)\/cancel/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranReceiptCounters/tranReceiptCounter/807331/19868
+        pathKeyPattern = {
+            pathKey : '/tranReceiptCounters/tranReceiptCounter/id/id',
+            pattern : /\/tranReceiptCounters\/tranReceiptCounter\/\d+\/\d+/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranReceiptCounters/tranReceiptCounter/923264/transaction/949395/22928
+        pathKeyPattern = {
+            pathKey : '/tranReceiptCounters/tranReceiptCounter/id/transaction/id/id',
+            pattern : /\/tranReceiptCounters\/tranReceiptCounter\/\d+\/transaction\/\d+\/\d+/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranReceiptVirtuals/tranReceiptVirtual/11624
+        pathKeyPattern = {
+            pathKey : '/tranReceiptVirtuals/tranReceiptVirtual/id',
+            pattern : /\/tranReceiptVirtuals\/tranReceiptVirtual\/(\d+)/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranReceiptVirtuals/tranReceiptVirtual/11632/transaction/27147
+        pathKeyPattern = {
+            pathKey : '/tranReceiptVirtuals/tranReceiptVirtual/id/transaction/id',
+            pattern : /\/tranReceiptVirtuals\/tranReceiptVirtual\/(\d+)\/transaction\/(\d+)/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranBranchTransfers/transaction/27391/acknowledge
+        pathKeyPattern = {
+            pathKey : '/tranBranchTransfers/transaction/id/acknowledge',
+            pattern : /\/tranBranchTransfers\/transaction\/(\d+)\/acknowledge/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranBranchTransfers/transaction/27391/cancel
+        pathKeyPattern = {
+            pathKey : '/tranBranchTransfers/transaction/id/cancel',
+            pattern : /\/tranBranchTransfers\/transaction\/(\d+)\/cancel/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /tranReceiptDealers/tranReceiptDealer/88781/transaction/30806/22812
+        pathKeyPattern = {
+            pathKey : '/tranReceiptDealers/tranReceiptDealer/id/transaction/id/id',
+            pattern : /\/tranReceiptDealers\/tranReceiptDealer\/(\d+)\/transaction\/(\d+)\/(\d+)/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
+
+        //  /customers/change-pbl-status/667
+        pathKeyPattern = {
+            pathKey : '/customers/change-pbl-status/id',
+            pattern : /\/customers\/change-pbl-status\/(d+)/i
+        };
+        pathKeyPatterns.push(pathKeyPattern);
     }
 
     service.doSearch = function(application, frMs, toMs) {
         var results = service.results;
-        curPageNo = 0;
         results.application = application;
         results.frMs = frMs;
         results.toMs = toMs;
         results.items = [];
         service.itemsMap = {};
         service.patternMap = {};
+
+        curPageNo = 0;
+
         search();
     };
 
@@ -42,7 +123,7 @@ function accessDataService($log, $http, $q, wydNotifyService) {
         path += '&fromMilliSeconds=' + results.frMs + '&toMilliSeconds=' + results.toMs;
         //$log.info(path);
         $http.get(path).success(function (response) {
-            $log.info(response);
+            //$log.info(response);
             if(response.type != 0) {
                 return;
             }
@@ -53,120 +134,68 @@ function accessDataService($log, $http, $q, wydNotifyService) {
             if(response.data.last != true) {
                 search();
             }
+            else {
+                sortByDefaultOrder();
+            }
         });
     }
 
     function processItem(item) {
-        computeRequestPathKey(item);
-        var summary = service.itemsMap[item.requestPathKey];
-        if(summary) {
-            summary.totalHits += 1;
-            if(summary.minTime > item.processTime) {
-                summary.minTime = item.processTime;
-            }
-            if(summary.maxTime < item.processTime) {
-                summary.maxTime = item.processTime;
-            }
-            summary.totalTime += item.processTime;
-            summary.items.push(item);
-        }
-        else {
-            summary = {
-                id : _.uniqueId(),
+        detectRequestPathKey(item);
+
+        var accessDataSummary = service.itemsMap[item.requestPathKey];
+        if(!accessDataSummary) {
+            accessDataSummary = {
                 requestPathKey : item.requestPathKey,
-                totalHits : 1,
-                minTime : item.processTime,
-                maxTime : item.processTime,
+                totalHits : 0,
+                minTime : 0,
+                maxTime : 0,
                 avgTime : 0,
-                totalTime : item.processTime,
-                items : [item]
+                totalTime : 0,
+                items : []
             };
-            service.results.items.push(summary);
-            service.itemsMap[item.requestPathKey] = summary;
-            service.patternMap[summary.id] = summary;
+            service.itemsMap[item.requestPathKey] = accessDataSummary;
+            service.results.items.push(accessDataSummary);
         }
-        summary.avgTime = summary.totalTime / summary.totalHits;
+
+        if(accessDataSummary.minTime > item.processTime) {
+            accessDataSummary.minTime = item.processTime;
+        }
+        if(accessDataSummary.maxTime < item.processTime) {
+            accessDataSummary.maxTime = item.processTime;
+        }
+        accessDataSummary.totalHits += 1;
+        accessDataSummary.totalTime += item.processTime;
+        accessDataSummary.avgTime = accessDataSummary.totalTime / accessDataSummary.totalHits;
+
+        accessDataSummary.items.push(item);
     }
 
-    function computeRequestPathKey(item) {
-        //  /tellerTransfers/transaction/304572/pay
-        var re = /\/tellerTransfers\/transaction\/(\d+)\/pay/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tellerTransfers/transaction/id/pay';
-            return;
+    function detectRequestPathKey(item) {
+        var pathKeyPatterns = service.pathKeyPatterns, pathKey = null;
+
+        for (var i = 0; i < pathKeyPatterns.length; i++) {
+            var pathKeyPattern = pathKeyPatterns[i];
+            if (item.requestPath.match(pathKeyPattern.pattern)) {
+                pathKey = pathKeyPattern.pathKey;
+                i = pathKeyPatterns.length + 1;
+            }
         }
 
-        //  /tellerTransfers/transaction/304572/acknowledge
-        re = /\/tellerTransfers\/transaction\/(\d+)\/acknowledge/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tellerTransfers/transaction/id/acknowledge';
-            return;
+        if(!pathKey) {
+            pathKey = item.requestPath;
         }
 
-        //  /tellerTransfers/transaction/304572/acknowledge
-        re = /\/tellerTransfers\/transaction\/(\d+)\/cancel/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tellerTransfers/transaction/id/cancel';
-            return;
-        }
+        item.requestPathKey = pathKey;
+    }
 
-        //  /tranReceiptCounters/tranReceiptCounter/807331/19868
-        re = /\/tranReceiptCounters\/tranReceiptCounter\/\d+\/\d+/i
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranReceiptCounters/tranReceiptCounter/id/id';
-            return;
-        }
-
-        //  /tranReceiptCounters/tranReceiptCounter/923264/transaction/949395/22928
-        re = /\/tranReceiptCounters\/tranReceiptCounter\/\d+\/transaction\/\d+\/\d+/i
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranReceiptCounters/tranReceiptCounter/id/transaction/id/id';
-            return;
-        }
-
-        //  /tranReceiptVirtuals/tranReceiptVirtual/11624
-        re = /\/tranReceiptVirtuals\/tranReceiptVirtual\/(\d+)/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranReceiptVirtuals/tranReceiptVirtual/id';
-            return;
-        }
-
-        //  /tranReceiptVirtuals/tranReceiptVirtual/11632/transaction/27147
-        re = /\/tranReceiptVirtuals\/tranReceiptVirtual\/(\d+)\/transaction\/(\d+)/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranReceiptVirtuals/tranReceiptVirtual/id/transaction/id';
-            return;
-        }
-
-        //  /tranBranchTransfers/transaction/27391/acknowledge
-        re = /\/tranBranchTransfers\/transaction\/(\d+)\/acknowledge/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranBranchTransfers/transaction/id/acknowledge';
-            return;
-        }
-
-        //  /tranBranchTransfers/transaction/27391/cancel
-        re = /\/tranBranchTransfers\/transaction\/(\d+)\/cancel/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranBranchTransfers/transaction/id/cancel';
-            return;
-        }
-
-        //  /tranReceiptDealers/tranReceiptDealer/88781/transaction/30806/22812
-        re = /\/tranReceiptDealers\/tranReceiptDealer\/(\d+)\/transaction\/(\d+)\/(\d+)/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/tranReceiptDealers/tranReceiptDealer/id/transaction/id/id';
-            return;
-        }
-
-        //  /customers/change-pbl-status/667
-        re = /\/customers\/change-pbl-status\/(d+)/i;
-        if(item.requestPath.match(re)) {
-            item.requestPathKey = '/customers/change-pbl-status/id';
-            return;
-        }
-
-        item.requestPathKey = item.requestPath;
+    function sortByDefaultOrder() {
+        var items0 = _.sortByOrder(service.results.items, 'avgTime'), items1 = [];
+        _.forEach(items0, function(ads){
+            ads.items = _.sortBy(ads.items, 'processTime').reverse();
+            items1.unshift(ads);
+        });
+        service.results.items = items1;
     }
 
     service.init();

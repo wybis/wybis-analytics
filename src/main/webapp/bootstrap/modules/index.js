@@ -1,7 +1,11 @@
 'use strict';
 
-function rootController($rootScope, $scope, $log, $window) {
-    $log.info('rootController...');
+function rootController($rootScope, $scope, $log, $window, panels) {
+    $log.debug('rootController...');
+
+    $scope.openPanel = function (panelId) {
+        panels.open(panelId);
+    };
 
     $scope.viewSource = function () {
         var s = 'view-source:localhost:1111/' + $rootScope.currentViewSrcUrl;
@@ -11,12 +15,21 @@ function rootController($rootScope, $scope, $log, $window) {
 }
 appControllers.controller('rootController', rootController);
 
+appControllers.controller('leftPanelController', function ($log, $scope) {
+    $log.debug('leftPanelController...');
+});
+
+appControllers.controller('rightPanelController', function ($log, $scope) {
+    $log.info('rightPanelController...');
+});
+
 var dependents = ['ngRoute', 'ngSanitize'];
 dependents.push('ngStorage');
 dependents.push('ngNotify');
 dependents.push('hSweetAlert');
 dependents.push('green.inputmask4angular');
 dependents.push('blockUI');
+dependents.push('angular.panels');
 dependents.push('ui.select');
 dependents.push('ui.bootstrap');
 dependents.push('app.filters');
@@ -39,6 +52,28 @@ app.config(function ($httpProvider) {
 //	blockUIConfig.autoBlock = false;
 //});
 
+var uikitId = 'bootstrap';
+
+app.config(function (panelsProvider) {
+
+    panelsProvider.add({
+        id: 'leftPanel',
+        position: 'left',
+        size: '300px',
+        templateUrl: uikitId + '/modules/zgeneral/d-leftPanel.html',
+        controller: 'leftPanelController'
+    });
+
+    panelsProvider.add({
+        id: 'rightPanel',
+        position: 'right',
+        size: '300px',
+        templateUrl: uikitId + '/modules/zgeneral/d-rightPanel.html',
+        controller: 'rightPanelController'
+    });
+
+});
+
 function appConfig($routeProvider, $locationProvider) {
 
     $routeProvider.when('/', {
@@ -46,17 +81,22 @@ function appConfig($routeProvider, $locationProvider) {
     });
 
     $routeProvider.when('/home', {
-        templateUrl: 'bootstrap/modules/home/d.html',
+        templateUrl: uikitId + '/modules/home/d.html',
         controller: 'homeController'
     });
 
     $routeProvider.when('/access-data', {
-        templateUrl: 'bootstrap/modules/accessData/d.html',
+        templateUrl: uikitId + '/modules/accessData/d.html',
         controller: 'accessDataListController'
     });
 
+    $routeProvider.when('/settings', {
+        templateUrl: uikitId + '/modules/settings/d.html',
+        controller: 'settingsController'
+    });
+
     $routeProvider.when('/not-found', {
-        templateUrl: 'bootstrap/modules/zgeneral/d-notFound.html'
+        templateUrl: uikitId + '/modules/zgeneral/d-notFound.html'
     });
 
     $routeProvider.otherwise({
@@ -65,7 +105,7 @@ function appConfig($routeProvider, $locationProvider) {
 };
 app.config(appConfig);
 
-function appInit($log, $rootScope, $location, $sessionStorage) {
+function appInit($log, $rootScope, $location, $sessionStorage, panels) {
     $log.info('Initialization started...');
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -84,8 +124,10 @@ function appInit($log, $rootScope, $location, $sessionStorage) {
         // $log.info('Location : ', $location.path());
         var curLocPath = $location.path();
         // $log.info('After Current Location : ', curLocPath);
+
+        panels.close();
     });
 
     $log.info('Initialization finished...');
 }
-app.run(['$log', '$rootScope', '$location', '$sessionStorage', appInit]);
+app.run(['$log', '$rootScope', '$location', '$sessionStorage', 'panels', appInit]);

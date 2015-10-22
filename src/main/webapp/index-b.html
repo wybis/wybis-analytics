@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.css"/>
 	<link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.min.css"/>
 	<link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css"/>
+	<link rel="stylesheet" href="bower_components/angular.panels/dist/angular.panels.min.css">
 
 	<link rel="stylesheet" href="bootstrap/modules/default.css" />
 </head>
@@ -22,36 +23,23 @@
 <div id="header">
 	<nav class="navbar navbar-default navbar-fixed-top" x-role="navigation">
 		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle"
-						x-toggle="collapse" x-target=".navbar-inverse-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+			<form class="navbar-form navbar-left">
+				<button class="btn btn-default" x-ng-click="openPanel('leftPanel')">
+					<i class="fa fa-bars"></i>&nbsp;
 				</button>
-				<a class="navbar-brand" href="console.html">Wybis Analytics</a>
+			</form>
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index-b.html">Wybis Analytics</a>
 			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li>
-						<a x-ng-href="#/home"><i class="fa fa-home"></i> Home</a>
-					</li>
-					<li>
-						<a href="#/access-data">Access Data</a>
-					</li>
-				</ul>
+			<div class="navbar-header">
+				<div class="navbar-brand">{{viewName | capitalizeFilter}}</div>
 			</div>
+			<form class="navbar-form navbar-right">
+				<button class="btn btn-default" x-ng-click="openPanel('rightPanel')">
+					<i class="fa fa-ellipsis-v"></i>&nbsp;
+				</button>
+			</form>
 		</div>
-
-		<div id="breadCrumb" class="container-fluid">
-
-			<div class="container">
-				<strong><small>{{viewName | capitalizeFilter}}</small></strong>
-			</div>
-
-		</div>
-
 	</nav>
 </div>
 
@@ -59,9 +47,7 @@
 	<div class="container" x-ng-view></div>
 </section>
 
-<!-- 
 <div data-panels="true"></div>
--->
 
 <script src="bower_components/lodash/lodash.min.js"></script>
 <script src="bower_components/moment/min/moment.min.js"></script>
@@ -78,6 +64,7 @@
 <script src="bower_components/angular-h-sweetalert/dist/ngSweetAlert.min.js"></script>
 <script src="bower_components/ng-notify/dist/ng-notify.min.js"></script>
 <script src="bower_components/angular-block-ui/dist/angular-block-ui.min.js"></script>
+<script src="bower_components/angular.panels/dist/angular.panels.min.js"></script>
 <script src="bower_components/angular-ui-select/dist/select.min.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js"></script>
@@ -93,6 +80,8 @@
 <script src="modules/home/controllers.js"></script>
 <script src="modules/accessData/services.js"></script>
 <script src="modules/accessData/controllers.js"></script>
+
+<script src="modules/settings/controllers.js"></script>
 
 <script src="bootstrap/modules/index.js"></script>
 

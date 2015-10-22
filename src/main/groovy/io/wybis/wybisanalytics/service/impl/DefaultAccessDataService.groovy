@@ -114,7 +114,6 @@ class DefaultAccessDataService implements AccessDataService {
             }
             accessData = accessDataRepository.save(accessData)
         }
-        //println(accessData)
     }
 
     @Override
@@ -160,11 +159,6 @@ class DefaultAccessDataService implements AccessDataService {
         //println messageOut
 
         return messageOut
-    }
-
-    void handle(Message<String> message) {
-        println message
-        println('-------------------------------------------------------')
     }
 
     @Resource

@@ -52,7 +52,7 @@
                 <button	class="ui small basic button"
                     x-ng-show="pathSummary != null"
                     x-ng-click="showSummaryView()">
-                    Back to Summary
+                    <i class="arrow left icon"></i>
                 </button>
                 <button	class="ui small basic button"
                     x-ng-show="pathSummary == null"
@@ -88,7 +88,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr x-ng-repeat="item in results.items | orderBy : '-avgTime'">
+        <tr x-ng-repeat="item in results.items">
             <td class="right aligned">{{$index+1}}</td>
             <td>{{item.requestPathKey}}</td>
             <td class="right aligned">{{item.totalHits}}</td>
@@ -118,7 +118,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr x-ng-repeat="item in pathSummary.items | orderBy : '-processTime'">
+        <tr x-ng-repeat="item in pathSummary.items">
             <td class="right aligned">{{$index+1}}</td>
             <td>{{item.requestId}}</td>
             <td>{{item.userId}}</td>

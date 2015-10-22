@@ -47,7 +47,7 @@
     </div>
 </form>
 
-    <div class="panel panel-default" x-ng-show="results.items.length != null">
+<div class="panel panel-default" x-ng-show="results.items.length != null">
 
     <div class="panel-heading">
         <div class="row">
@@ -58,9 +58,9 @@
                 <button	class="btn btn-default btn-sm"
                     x-ng-show="pathSummary != null"
                     x-ng-click="showSummaryView()">
-                    Back to Summary
+                    <i class="fa fa-arrow-left"></i>
                 </button>&nbsp;
-                <button	type="button" class="btn btn-default btn-sm"
+                <button	class="btn btn-default btn-sm"
                    x-ng-show="pathSummary == null"
                    x-ng-click="refresh()">
                     <i class="fa fa-refresh"></i>
@@ -80,6 +80,7 @@
             </div>
         </div>
     </div>
+
     <table class="table table-striped table-bordered table-hover" x-ng-show="pathSummary == null">
         <thead>
         <tr>
@@ -93,7 +94,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr x-ng-repeat="item in results.items | orderBy : '-avgTime'">
+        <tr x-ng-repeat="item in results.items">
             <td class="text-right">{{$index+1}}</td>
             <td>{{item.requestPathKey}}</td>
             <td class="text-right">{{item.totalHits}}</td>
@@ -123,7 +124,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr x-ng-repeat="item in pathSummary.items | orderBy : '-processTime'">
+        <tr x-ng-repeat="item in pathSummary.items">
             <td class="text-right">{{$index+1}}</td>
             <td>{{item.requestId}}</td>
             <td>{{item.userId}}</td>

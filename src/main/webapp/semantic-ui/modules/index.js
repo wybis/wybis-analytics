@@ -11,10 +11,6 @@ function rootController($rootScope, $scope, $log, $window) {
 
     $scope.toggleSideBar = function(sideBarId) {
       $('#' + sideBarId).sidebar('toggle');
-      //  $('#leftSideBar').sidebar('toggle');
-      //  $('#rightSideBar').sidebar('toggle');
-      //  $('#topSideBar').sidebar('toggle');
-      //  $('#bottomSideBar').sidebar('toggle');
     };
 }
 appControllers.controller('rootController', rootController);
@@ -32,6 +28,7 @@ app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('generalHttpInterceptor');
 });
 
+var uikitId = 'semantic-ui';
 function appConfig($routeProvider, $locationProvider) {
 
     $routeProvider.when('/', {
@@ -39,17 +36,22 @@ function appConfig($routeProvider, $locationProvider) {
     });
 
     $routeProvider.when('/home', {
-        templateUrl: 'semantic-ui/modules/home/d.html',
+        templateUrl: uikitId + '/modules/home/d.html',
         controller: 'homeController'
     });
 
     $routeProvider.when('/access-data', {
-        templateUrl: 'semantic-ui/modules/accessData/d.html',
+        templateUrl: uikitId + '/modules/accessData/d.html',
         controller: 'accessDataListController'
     });
 
+    $routeProvider.when('/settings', {
+        templateUrl: uikitId + '/modules/settings/d.html',
+        controller: 'settingsController'
+    });
+
     $routeProvider.when('/not-found', {
-        templateUrl: 'semantic-ui/modules/zgeneral/d-notFound.html'
+        templateUrl: uikitId + '/modules/zgeneral/d-notFound.html'
     });
 
     $routeProvider.otherwise({
@@ -77,6 +79,8 @@ function appInit($log, $rootScope, $location, $sessionStorage) {
         // $log.info('Location : ', $location.path());
         var curLocPath = $location.path();
         // $log.info('After Current Location : ', curLocPath);
+
+        $('#leftPanel').sidebar('hide');
     });
 
     $log.info('Initialization finished...');

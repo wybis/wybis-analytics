@@ -1,0 +1,150 @@
+<md-content class="md-padding" layout="column" flex>
+
+    <md-card>
+        <form name="userForm">
+            <div layout="row" layout-sm="column" layout-align="center center">
+                <md-input-container flex="20">
+                    <label>Application</label>
+                    <md-select ng-model="searchCriteria.application">
+                        <md-option ng-repeat="item in applications" value="{{item.id}}">{{item.name}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>From ( yyyy - mm - dd hh : mm )</label>
+                    <input type="text" class="form-control input-sm"
+                       x-ng-model="searchCriteria.frString"
+                       x-input-mask="'mask'"
+                       mask-option="searchCriteria.frMask"/>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>To ( yyyy - mm - dd hh : mm )</label>
+                    <input type="text" class="form-control input-sm"
+                       x-ng-model="searchCriteria.toString"
+                       x-input-mask="'mask'"
+                       mask-option="searchCriteria.toMask"/>
+                </md-input-container>
+                <md-input-container flex="20">
+                    <label>Date Range Helper</label>
+                    <md-select ng-model="searchCriteria.dateRange" ng-change="onDateRangeChange()">
+                        <md-option ng-repeat="item in dateRanges" value="{{item.name}}">{{item.name}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button flex="10" class="md-raised md-primary" ng-click="search()">
+                    <ng-md-icon icon="search"></ng-md-icon> Search
+                </md-button>
+            </div>
+        </form>
+    </md-card>
+
+    <md-card x-ng-show="results.items.length != null">
+        <div layout="row" layout-sm="column">
+            <md-input-container flex="20">
+                <label>Application</label>
+                <input disabled="" value="{{results.application.name}}">
+            </md-input-container>
+            <md-input-container flex="20">
+                <label>From</label>
+                <input disabled="" value="{{results.frMs | date:'dd-MM-yyyy HH:mm'}}">
+            </md-input-container>
+            <md-input-container flex="20">
+                <label>To</label>
+                <input disabled="" value="{{results.toMs | date:'dd-MM-yyyy HH:mm'}}">
+            </md-input-container>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="More" flex="5"
+                ng-show="pathSummary != null"
+                ng-click="showSummaryView()">
+                <ng-md-icon icon="arrow_back"></ng-md-icon>
+            </md-button>&nbsp;
+            <md-button class="md-icon-button" aria-label="More" flex="5"
+                ng-show="pathSummary == null"
+                ng-click="refresh()">
+                <ng-md-icon icon="refresh"></ng-md-icon>
+            </md-button>
+        </div>
+        <div layout="row" layout-sm="column" x-ng-show="pathSummary != null">
+            <md-input-container flex>
+                <label>Request Path Pattern</label>
+                <input disabled="" value="{{pathSummary.requestPathKey}}">
+            </md-input-container>
+            <md-input-container flex="10">
+                <label>Minimum Time</label>
+                <input disabled="" value="{{(pathSummary.minTime / 1000) | number : 3}}">
+            </md-input-container>
+            <md-input-container flex="10">
+                <label>Maximum Time</label>
+                <input disabled="" value="{{(pathSummary.maxTime / 1000) | number : 3}}">
+            </md-input-container>
+            <md-input-container flex="10">
+                <label>Average Time</label>
+                <input disabled="" value="{{(pathSummary.avgTime / 1000) | number : 3}}">
+            </md-input-container>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div ng-show="pathSummary == null">
+        <md-data-table-container>
+            <table md-data-table>
+                <thead>
+                <tr>
+                    <th name="#" numeric></th>
+                    <th name="Path Pattern"></th>
+                    <th name="Total Hits" numeric></th>
+                    <th name="Min Time" numeric></th>
+                    <th name="Max Time" numeric></th>
+                    <th name="Avg Time" numeric></th>
+                    <th name=""></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in results.items">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.requestPathKey}}</td>
+                    <td>{{item.totalHits}}</td>
+                    <td>{{(item.minTime / 1000) | number : 3}}</td>
+                    <td>{{(item.maxTime / 1000) | number : 3}}</td>
+                    <td>{{(item.avgTime / 1000) | number : 3}}</td>
+                    <td>
+                        <md-button class="md-icon-button"
+                            x-ng-click="showPathView(item)">
+                            <ng-md-icon icon="filter"></ng-md-icon>
+                        </md-button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-data-table-container>
+        </div>
+
+        <div ng-show="pathSummary != null">
+        <md-data-table-container>
+            <table md-data-table>
+                <thead>
+                <tr>
+                    <th name="#" numeric></th>
+                    <th name="Request Path"></th>
+                    <th name="User Id"></th>
+                    <th name="Start Time"></th>
+                    <th name="End Time"></th>
+                    <th name="C Run Time" numeric></th>
+                    <th name="R Run Time" numeric></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in pathSummary.items">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.requestId}}</td>
+                    <td>{{item.userId}}</td>
+                    <td>{{item.startTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
+                    <td>{{item.endTime | date:'yyyy-MM-dd - HH:mm - ss.sss'}}</td>
+                    <td>{{(item.processTimeC / 1000) | number : 3}}</td>
+                    <td>{{(item.processTime) / 1000 | number : 3}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </md-data-table-container>
+        </div>
+    </md-card>
+
+</md-content>

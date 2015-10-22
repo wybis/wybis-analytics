@@ -13,46 +13,49 @@
 </head>
 <body>
 
-<div id="leftSideBar" class="ui left vertical sidebar menu" sui-sidebar>
+<div id="leftPanel" class="ui left vertical sidebar menu" sui-sidebar>
     <div class="ui secondary segment">
         <div class="item">
-            <h1>Wybis Analytics</h1>
+            <h3>Wybis Analytics</h3>
         </div>
     </div>
+    <a class="item" href="#/home">Dashboard</a>
+
+    <a class="item" href="#/access-data">Access Data</a>
+
+    <a class="item" href="#/settings">Settings</a>
+
+    <a class="item" href="#/sign-out">Sign Out</a>
 </div>
-<!--
-<div id="topSideBar" class="ui top sidebar" sui-sidebar>
-    <div class="ui secondary segment">
-        <div class="item">
-            <h1>Wybis Analytics</h1>
-        </div>
-    </div>
+
+<div id="rightPanel" class="ui right vertical sidebar menu" sui-sidebar>
+
 </div>
--->
+
 <div class="pusher">
 
-    <div class="ui fixed teal inverted menu">
+    <div class="ui fixed blue inverted menu">
         <div class="ui container">
-            <div class="ui teal icon button" ng-click="toggleSideBar('leftSideBar')">
-                <i class="sidebar icon"></i>
+            <div class="left menu">
+                <div class="ui blue icon button" ng-click="toggleSideBar('leftPanel')">
+                    <i class="sidebar icon"></i>
+                </div>
+                <a class="item" href="index-s.html">Wybis Analytics</a>
+                <div class="item">
+                    {{viewName | capitalizeFilter}}
+                </div>
             </div>
-
-            <a class="item" href="index-s.html">Wybis Analytics</a>
-
-            <a class="item" href="#/home">
-                <i class="home icon"></i> Home
-            </a>
-
-            <a class="item" href="#/access-data">
-                Access Data
-            </a>
+            <div class="right menu">
+                <div class="ui blue icon button" ng-click="toggleSideBar('rightPanel')">
+                    <i class="ellipsis vertical icon"></i>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="ui container">
         <br/><br/><br/>
         <x-ng-view></x-ng-view>
-
     </div>
 </div>
 
@@ -81,6 +84,8 @@
 <script src="modules/home/controllers.js"></script>
 <script src="modules/accessData/services.js"></script>
 <script src="modules/accessData/controllers.js"></script>
+
+<script src="modules/settings/controllers.js"></script>
 
 <script src="semantic-ui/modules/index.js"></script>
 

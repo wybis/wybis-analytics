@@ -54,14 +54,3 @@ function generalHttpInterceptor($log, $rootScope, $q, $window) {
 }
 appServices.factory('generalHttpInterceptor', generalHttpInterceptor);
 
-appControllers.controller('sessionResponseController', function ($log, $scope, panels) {
-    $log.info('sessionResponseController...');
-    $scope.message = 'session response...';
-
-    $scope.$on('session:response', function (event, data) {
-        $log.debug('session response started...');
-        $scope.message = data;
-        panels.open('sessionResponse');
-        $log.debug('session response finished...');
-    });
-});

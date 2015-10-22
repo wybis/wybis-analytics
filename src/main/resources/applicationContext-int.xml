@@ -25,7 +25,3 @@
     </int-file:inbound-channel-adapter>
 
 </beans>
-<!--
-filename-regex="test[0-9]+\.txt"
-filename-pattern="*.log"
--->

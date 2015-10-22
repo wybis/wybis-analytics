@@ -34,7 +34,6 @@ class IntegrationConfig {
                 .filter(accessDataService, 'hasAccessData')
                 .transform(accessDataService, 'createFrom')
                 .handle(accessDataService, 'save')
-                //.handle(accessDataService, 'handle')
                 .get();
     }
 }
