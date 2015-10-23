@@ -29,7 +29,7 @@ repositories {
 
 war {
     baseName = 'wybis-analytics'
-    version = '0.0.1'
+    version = '1.0.0'
 }
 
 configurations {
@@ -66,7 +66,7 @@ dependencies {
 
 bootRun {
 //  Use --debug option to print out
-//    args '--debug'
+//  args '--debug'
 }
 
 idea {

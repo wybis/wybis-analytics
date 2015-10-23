@@ -83,15 +83,15 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return ste
     }
 
-    @Bean
-    Template displayTemplate() throws Exception {
-        Template tmpl = null
-
-        ClassPathResource cpr = new ClassPathResource("templates/display.html")
-        SimpleTemplateEngine ste = this.simpleTemplateEngine()
-        tmpl = ste.createTemplate(cpr.getFile())
-
-        return tmpl
-    }
+//    @Bean
+//    Template displayTemplate() throws Exception {
+//        Template tmpl = null
+//
+//        ClassPathResource cpr = new ClassPathResource("templates/display.html")
+//        SimpleTemplateEngine ste = this.simpleTemplateEngine()
+//        tmpl = ste.createTemplate(cpr.getFile())
+//
+//        return tmpl
+//    }
 
 }

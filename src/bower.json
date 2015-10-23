@@ -36,7 +36,6 @@
     "angular-inputmask": "*",
     "angular-material": "~0.11.2",
     "semantic": "semantic-ui#~2.1.4",
-    "react": "~0.14.0",
     "angular-material-icons": "~0.6.0",
     "angular-material-data-table": "~0.8.14"
   },
